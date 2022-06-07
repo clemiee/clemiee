@@ -1,0 +1,23 @@
+name: Plant
+
+on:
+  schedule:
+  - cron: '0 * * * *' # At minute 0.
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  commit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      # Runs a single command using the runners shell
+      - name: Run commit script
+        run: |
+           git config --global user.name ${GITHUB_ACTOR}
+           git config --global user.email ${{ secrets.USER_EMAIL }}
+           git commit --allow-empty -m "chore: update" 
+           git push origin master
